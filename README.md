@@ -7,7 +7,8 @@ This is a project that renders cards on the end user's screen depending on their
 ## Updates
 
 At the start of the project, I implemented React in it with the use of the build tool Vite. Organized all of the initial file structure according to what the design
-was specifying.  
+was specifying.
+
 Then I started to work on the different components and their stylings, ensuring that values are very flexible.
 
 ## Features
