@@ -1,0 +1,37 @@
+.modal__content_type_image {
+  padding: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  max-width: 498px;
+}
+
+.modal__image {
+  margin: 0;
+  width: 100%;
+}
+
+.modal__close-image {
+  background-color: transparent;
+}
+
+.modal__footer {
+  padding: 16px 8px;
+}
+
+.modal__caption {
+  margin: 20px auto 12px 32px;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0%;
+}
+
+.modal__weather {
+  margin: 0 auto 32px 32px;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: 0%;
+}

@@ -1,0 +1,32 @@
+.card {
+  width: 323px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  border-radius: 16px;
+  border: 1px solid #0000004d;
+  overflow: hidden;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
+.card__title {
+  position: absolute;
+  top: 15px;
+  margin: 0;
+  border-radius: 4px;
+  padding: 2px 12px;
+  background-color: #ffffff;
+  font-weight: 700;
+  font-style: bold;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: #00000099;
+}
+
+.card__image {
+  width: 100%;
+}
