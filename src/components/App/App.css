@@ -8,3 +8,10 @@
   padding: 0 20px;
   font-family: sans-serif;
 }
+
+@media screen and (max-width: 375px) {
+  .page__content {
+    max-width: 375px;
+    padding: 0 16px;
+  }
+}

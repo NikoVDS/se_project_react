@@ -35,3 +35,10 @@
   line-height: 24px;
   letter-spacing: 0%;
 }
+
+@media screen and (max-width: 375px) {
+  .modal__content_type_image {
+    max-width: 343px;
+    margin: auto 16px auto;
+  }
+}

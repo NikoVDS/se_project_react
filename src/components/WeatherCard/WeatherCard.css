@@ -20,3 +20,9 @@
   object-position: right top;
   width: 100%;
 }
+
+@media screen and (max-width: 375px) {
+  .weather-card_hidden {
+    display: none;
+  }
+}
