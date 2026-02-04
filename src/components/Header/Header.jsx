@@ -20,6 +20,7 @@ function Header({
       <img
         className={`header__logo ${isMobileMenuOpened ? "header__logo_hidden" : ""}`}
         src={logo}
+        alt="header logo"
       />
       <p
         className={`header__date-and-location ${isMobileMenuOpened ? "header__date-and-location_hidden" : ""}`}
