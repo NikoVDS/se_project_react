@@ -15,11 +15,11 @@
 }
 
 .modal__footer {
-  padding: 16px 8px;
+  padding: 20px;
 }
 
 .modal__caption {
-  margin: 20px auto 12px 32px;
+  margin: 0;
   font-weight: 700;
   font-style: Bold;
   font-size: 20px;
@@ -28,7 +28,7 @@
 }
 
 .modal__weather {
-  margin: 0 auto 32px 32px;
+  margin-bottom: 0;
   font-weight: 700;
   font-style: Bold;
   font-size: 20px;
@@ -36,7 +36,7 @@
   letter-spacing: 0%;
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 630px) {
   .modal__content_type_image {
     max-width: 343px;
     margin: auto 16px auto;

@@ -3,15 +3,16 @@
 }
 
 .page__content {
-  max-width: 1360px;
+  max-width: 1440px;
+  min-height: 100vh;
   margin: 0 auto;
   padding: 0 20px;
   font-family: sans-serif;
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 630px) {
   .page__content {
-    max-width: 375px;
+    max-width: 100%;
     padding: 0 16px;
   }
 }

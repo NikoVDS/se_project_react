@@ -6,17 +6,22 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 import ItemModal from "../ItemModal/ItemModal";
 import Footer from "../Footer/Footer";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
-import { APIkey, coordinates } from "../../utils/constants";
+import {
+  APIkey,
+  coordinates,
+  defaultClothingItems,
+} from "../../utils/constants";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
-    type: "",
-    temp: { F: 999 },
+    type: "...",
+    temp: { F: "..." },
     city: "",
   });
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [isMobileMenuOpened, toggleMobileMenu] = useState(false);
+  const clothingItems = useState(defaultClothingItems);
 
   const handleCardClick = (card) => {
     setActiveModal("preview");
@@ -27,7 +32,7 @@ function App() {
     setActiveModal("add-garment");
   };
 
-  const mobileMenuHandler = () => {
+  const handleMobileMenuClick = () => {
     toggleMobileMenu((isMobileMenuOpened) => !isMobileMenuOpened);
   };
 
@@ -51,12 +56,13 @@ function App() {
           handleAddClick={handleAddClick}
           weatherData={weatherData}
           isMobileMenuOpened={isMobileMenuOpened}
-          mobileMenuHandler={mobileMenuHandler}
+          handleMobileMenuClick={handleMobileMenuClick}
         />
         <Main
           weatherData={weatherData}
           handleCardClick={handleCardClick}
           isMobileMenuOpened={isMobileMenuOpened}
+          clothingItems={clothingItems}
         />
         <Footer />
       </div>

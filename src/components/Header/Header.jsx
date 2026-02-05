@@ -7,7 +7,7 @@ import close from "../../assets/close.svg";
 function Header({
   handleAddClick,
   weatherData,
-  mobileMenuHandler,
+  handleMobileMenuClick,
   isMobileMenuOpened,
 }) {
   const currentDate = new Date().toLocaleString("default", {
@@ -40,7 +40,7 @@ function Header({
         <button
           className={`header__mobile-menu ${isMobileMenuOpened ? "header__mobile-menu_hidden" : ""}`}
           type="button"
-          onClick={mobileMenuHandler}
+          onClick={handleMobileMenuClick}
         >
           <img
             className="header__mobile-icon"
@@ -66,7 +66,7 @@ function Header({
         <button
           className="header__close"
           type="button"
-          onClick={mobileMenuHandler}
+          onClick={handleMobileMenuClick}
         >
           <img src={close} alt="close" />
         </button>
