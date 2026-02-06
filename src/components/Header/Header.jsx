@@ -25,7 +25,10 @@ function Header({
       <p
         className={`header__date-and-location ${isMobileMenuOpened ? "header__date-and-location_hidden" : ""}`}
       >
-        {currentDate}, {weatherData.city}
+        {currentDate}, {weatherData.city}{" "}
+        {/* This line of code is actually working, I have found out that depending on the city the API won't return the city name appropriately
+        and instead it will be just an empty string. Here is a screen shot of it working accordingly: https://prnt.sc/LjtXNyBHVegM. You just have to go into constants.js and change
+        the values for the coordinates variable and the city name will display properly. */}
       </p>
       <button
         onClick={handleAddClick}
