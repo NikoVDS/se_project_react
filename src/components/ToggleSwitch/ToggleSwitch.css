@@ -1,0 +1,51 @@
+.toggle-switch {
+  width: 56px;
+  height: 28px;
+  border: 2px solid #7e7e7e;
+  border-radius: 20px;
+  cursor: pointer;
+  overflow: hidden; /* For my reference: This is used to prevent users from clicking outside the label and still updating the checkbox */
+  position: relative;
+}
+
+.toggle-switch__checkbox {
+  opacity: 0; /* This property is being used to hide the actual checkbox and show only the label, using visibility or display properties here
+  would cause the checkbox to not be focusable (or clickable) */
+  cursor: pointer;
+}
+
+.toggle-switch__knob {
+  background-color: black;
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  border-radius: 50%;
+  left: 0;
+  transition: all 0.2s;
+}
+
+.toggle-switch:hover .toggle-switch__knob {
+  width: 30px;
+}
+
+.toggle-switch__text {
+  position: absolute;
+  color: #7e7e7e;
+  top: 5px;
+}
+
+.toggle-switch__text_F {
+  left: 9px;
+}
+
+.toggle-switch__text_C {
+  right: 9px;
+}
+
+.toggle-switch__checkbox:checked ~ .toggle-switch__knob {
+  left: 28px;
+}
+
+.toggle-switch__text_color_white {
+  color: white;
+}
