@@ -1,0 +1,47 @@
+.modal__content_type_delete {
+  max-width: 670px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 152px;
+}
+
+.modal__delete-inquiry {
+  margin: 0;
+}
+
+.modal__delete-inquiry span {
+  display: block;
+  margin-bottom: 40px;
+}
+
+.modal__close-image {
+  background-color: transparent;
+}
+
+.modal__delete-confirm {
+  display: block;
+  max-width: 138px;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  margin-bottom: 28px;
+  color: #ff4d00;
+}
+
+.modal__delete-confirm:hover {
+  cursor: pointer;
+}
+
+.modal__delete-cancel {
+  display: block;
+  max-width: 61px;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+}
+
+.modal__delete-cancel:hover {
+  cursor: pointer;
+}

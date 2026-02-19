@@ -11,6 +11,7 @@ import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnit
 import AddItemModal from "../AddItemModal/AddItemModal";
 import Profile from "../Profile/Profile";
 import { addItem, getItems, removeItem } from "../../utils/api";
+import DeleteModal from "../DeleteModal/DeleteModal";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -35,6 +36,7 @@ function App() {
   };
 
   const onAddItem = (inputValues) => {
+    console.log(inputValues);
     const newCardData = {
       name: inputValues.name,
       imageUrl: inputValues.link,
@@ -44,6 +46,7 @@ function App() {
     addItem(newCardData)
       .then((data) => {
         setClothingItems([data, ...clothingItems]); // Here is where the back-end data base is returning the ID for each card by using the ID parameter rather than the newCardData.
+        console.log(data);
         closeActiveModal();
       })
       .catch(console.error);
@@ -61,8 +64,21 @@ function App() {
     setActiveModal("");
   };
 
+  const handleDeleteModal = () => {
+    setActiveModal("delete-garment");
+  };
+
   const deleteItemHandler = (cardID) => {
-    removeItem(cardID);
+    console.log(cardID);
+    removeItem(cardID)
+      .then((data) => {
+        const filteredCards = clothingItems.filter((item) => {
+          return item._id != cardID;
+        });
+        setClothingItems(filteredCards);
+        closeActiveModal();
+      })
+      .catch(console.error);
   };
 
   const handleToggleSwitchChange = () => {
@@ -122,6 +138,7 @@ function App() {
                 <Profile
                   handleCardClick={handleCardClick}
                   clothingItems={clothingItems}
+                  handleAddClick={handleAddClick}
                 />
               }
             />
@@ -146,6 +163,14 @@ function App() {
           closeActiveModal={closeActiveModal}
           onAddItem={onAddItem}
           deleteItemHandler={deleteItemHandler}
+          handleDeleteModal={handleDeleteModal}
+        />
+        <DeleteModal
+          activeModal={activeModal}
+          isOpen={activeModal === "delete-garment"}
+          closeActiveModal={closeActiveModal}
+          deleteItemHandler={deleteItemHandler}
+          card={selectedCard}
         />
       </CurrentTemperatureUnitContext.Provider>
     </div>

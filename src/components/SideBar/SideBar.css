@@ -5,6 +5,15 @@
   align-items: center;
 }
 
+.sidebar__username {
+  width: 100%;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
 .sidebar__avatar {
   width: 56px;
   height: 56px;
