@@ -68,10 +68,16 @@ function Header({
       <div
         className={`header__nav-menu ${isMobileMenuOpened ? "header__nav-menu_active" : ""}`}
       >
-        <div className="header__user-container">
-          <p className="header__username">Terrence Tegegne</p>
-          <img src={avatar} alt="Profile Picture" className="header__avatar" />
-        </div>
+        <NavLink className="header__nav-link" to="/profile">
+          <div className="header__user-container">
+            <p className="header__username">Terrence Tegegne</p>
+            <img
+              src={avatar}
+              alt="Profile Picture"
+              className="header__avatar"
+            />
+          </div>
+        </NavLink>
         <button
           onClick={handleAddClick}
           type="button"

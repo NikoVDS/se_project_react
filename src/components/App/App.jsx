@@ -35,8 +35,7 @@ function App() {
     setSelectedCard(card);
   };
 
-  const onAddItem = (inputValues) => {
-    console.log(inputValues);
+  const handleAddItem = (inputValues) => {
     const newCardData = {
       name: inputValues.name,
       imageUrl: inputValues.link,
@@ -155,13 +154,13 @@ function App() {
           activeModal={activeModal}
           isOpen={activeModal === "add-garment"}
           closeActiveModal={closeActiveModal}
-          onAddItem={onAddItem}
+          onAddItem={handleAddItem}
         />
         <ItemModal
           activeModal={activeModal}
           card={selectedCard}
           closeActiveModal={closeActiveModal}
-          onAddItem={onAddItem}
+          onAddItem={handleAddItem}
           deleteItemHandler={deleteItemHandler}
           handleDeleteModal={handleDeleteModal}
         />
