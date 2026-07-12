@@ -6,12 +6,18 @@ import Main from "../Main/Main";
 import ItemModal from "../ItemModal/ItemModal";
 import Footer from "../Footer/Footer";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
-import { apiKey, coordinates } from "../../utils/constants";
+import { apiKey } from "../../utils/constants";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import Profile from "../Profile/Profile";
 import { addItem, getItems, removeItem } from "../../utils/api";
 import DeleteModal from "../DeleteModal/DeleteModal";
+
+// Fallback coordinates in case geolocation fails
+const FALLBACK_COORDINATES = {
+  latitude: 34.00001,
+  longitude: 81.12336,
+};
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -29,6 +35,7 @@ function App() {
   const [isMobileMenuOpened, toggleMobileMenu] = useState(false);
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
+  const [coordinates, setCoordinates] = useState(null);
 
   const handleCardClick = (card) => {
     setActiveModal("preview");
@@ -45,7 +52,6 @@ function App() {
     addItem(newCardData)
       .then((data) => {
         setClothingItems([data, ...clothingItems]); // Here is where the back-end data base is returning the ID for each card by using the ID parameter rather than the newCardData.
-        console.log(data);
         closeActiveModal();
       })
       .catch(console.error);
@@ -84,7 +90,31 @@ function App() {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
   };
 
+  // Request user's geolocation
   useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCoordinates({ latitude, longitude });
+        },
+        (error) => {
+          // If user denies permission or geolocation fails, use fallback coordinates
+          console.warn("Geolocation error:", error.message);
+          setCoordinates(FALLBACK_COORDINATES);
+        },
+      );
+    } else {
+      // Geolocation not supported, use fallback coordinates
+      console.warn("Geolocation is not supported by this browser.");
+      setCoordinates(FALLBACK_COORDINATES);
+    }
+  }, []);
+
+  // Fetch weather and items once coordinates are available
+  useEffect(() => {
+    if (!coordinates) return;
+
     getWeather(coordinates, apiKey)
       .then((data) => {
         const filteredData = filterWeatherData(data);
@@ -105,7 +135,7 @@ function App() {
 
     //   setClothingItems(filteredArr);
     // });
-  }, []);
+  }, [coordinates]);
 
   return (
     <div className="page">

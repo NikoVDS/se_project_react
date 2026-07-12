@@ -111,6 +111,10 @@
   width: 100%;
 }
 
+.modal__input--invalid {
+  border-bottom: 1px solid #ff0000;
+}
+
 .modal__submit {
   min-width: 124px;
   height: 36px;
@@ -136,6 +140,21 @@
 
 .modal__submit:disabled {
   background-color: #0000004d;
+}
+
+.modal__error {
+  display: block;
+  margin-top: 4px;
+  color: #ff0000;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.modal__radio-buttons--invalid {
+  border: 1px solid #ff0000;
+  padding: 12px;
+  border-radius: 4px;
 }
 
 @media screen and (max-width: 375px) {
