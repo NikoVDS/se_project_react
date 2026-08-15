@@ -12,6 +12,7 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import Profile from "../Profile/Profile";
 import { addItem, getItems, removeItem } from "../../utils/api";
 import DeleteModal from "../DeleteModal/DeleteModal";
+import { register, authorize, checkToken } from "../../utils/auth";
 
 // Fallback coordinates in case geolocation fails
 const FALLBACK_COORDINATES = {
@@ -36,6 +37,8 @@ function App() {
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
   const [clothingItems, setClothingItems] = useState([]);
   const [coordinates, setCoordinates] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleCardClick = (card) => {
     setActiveModal("preview");
@@ -89,6 +92,65 @@ function App() {
   const handleToggleSwitchChange = () => {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
   };
+
+  // Check token once application starts
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+
+    if (!token) {
+      return;
+    }
+
+    checkToken(token)
+      .then((user) => {
+        setCurrentUser(user);
+        setIsLoggedIn(true);
+      })
+      .catch((err) => {
+        console.error(err);
+        localStorage.removeItem("jwt");
+        setIsLoggedIn(false);
+      });
+  }, []);
+
+  function handleRegister({ name, avatar, email, password }) {
+    return register({
+      name,
+      avatar,
+      email,
+      password,
+    })
+      .then(() => {
+        return authorize({
+          email,
+          password,
+        });
+      })
+      .then((res) => {
+        localStorage.setItem("jwt", res.token);
+        setIsLoggedIn(true);
+        setCurrentUser(res.data);
+        closeActiveModal();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  function handleLogin({ email, password }) {
+    authorize({ email, password })
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem("jwt", res.token);
+          setIsLoggedIn(true);
+          setCurrentUser(res.data);
+          closeActiveModal();
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
   // Request user's geolocation
   useEffect(() => {
@@ -200,6 +262,17 @@ function App() {
           closeActiveModal={closeActiveModal}
           deleteItemHandler={deleteItemHandler}
           card={selectedCard}
+        />
+        <RegisterModal
+          isOpen={activeModal === "register"}
+          onClose={closeActiveModal}
+          onRegister={handleRegister}
+        />
+
+        <LoginModal
+          isOpen={activeModal === "login"}
+          onClose={closeActiveModal}
+          onLogin={handleLogin}
         />
       </CurrentTemperatureUnitContext.Provider>
     </div>
