@@ -6,6 +6,8 @@ import close from "../../assets/close.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Header({
   handleAddClick,
@@ -13,6 +15,8 @@ function Header({
   handleMobileMenuClick,
   isMobileMenuOpened,
 }) {
+  const currentUser = useContext(CurrentUserContext);
+
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
@@ -70,7 +74,32 @@ function Header({
       >
         <NavLink className="header__nav-link" to="/profile">
           <div className="header__user-container">
-            <p className="header__username">Terrence Tegegne</p>
+            <p className="header__username">
+              {isLoggedIn && (
+                <>
+                  <button
+                    onClick={handleAddClick}
+                    type="button"
+                    className="header__add-clothes-btn"
+                  >
+                    + Add Clothes
+                  </button>
+
+                  <NavLink className="header__nav-link" to="/profile">
+                    <p className="header__username">{currentUser.name}</p>
+                    <img
+                      src={currentUser.avatar}
+                      alt="Profile Picture"
+                      className="header__avatar"
+                    />
+                  </NavLink>
+
+                  <button type="button" onClick={handleSignOut}>
+                    Sign Out
+                  </button>
+                </>
+              )}
+            </p>
             <img
               src={avatar}
               alt="Profile Picture"

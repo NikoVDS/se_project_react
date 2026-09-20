@@ -14,6 +14,13 @@ function ItemCard({ item, onCardClick }) {
         src={item.imageUrl}
         alt={item.name}
       />
+      <button
+        type="button"
+        className={`card__like-button ${isLiked ? "card__like-button_liked" : ""}`}
+        onClick={handleLikeClick}
+      >
+        {isLiked ? "♥ Liked" : "♡ Like"}
+      </button>
     </li>
   );
 }
