@@ -29,3 +29,5 @@ The most important component is `App.jsx`. It controls the state of the elements
 ## More Information
 
 Link to Project on [GitHub Pages](https://nikovds.github.io/se_project_react/)
+
+Link to Backend on [GitHub Pages](https://github.com/NikoVDS/se_project_express)

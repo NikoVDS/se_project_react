@@ -11,6 +11,7 @@ import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnit
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import Profile from "../Profile/Profile";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import {
   addItem,
   getItems,
@@ -45,18 +46,18 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [coordinates, setCoordinates] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleCardClick = (card) => {
     setActiveModal("preview");
     setSelectedCard(card);
   };
 
-  const token = localStorage.getItem("jwt");
+  const handleEditProfileClick = () => {
+    setActiveModal("edit-profile");
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("jwt");
-    setIsLoggedIn(false);
     setCurrentUser(null);
   };
 
@@ -105,7 +106,7 @@ function App() {
     setActiveModal("delete-garment");
   };
 
-  const deleteItemHandler = (cardID) => {
+  const deleteItemHandler = (cardID, token) => {
     const token = localStorage.getItem("jwt");
 
     removeItem(cardID)
@@ -134,12 +135,10 @@ function App() {
     checkToken(token)
       .then((user) => {
         setCurrentUser(user);
-        setIsLoggedIn(true);
       })
       .catch((err) => {
         console.error(err);
         localStorage.removeItem("jwt");
-        setIsLoggedIn(false);
       });
   }, []);
 
@@ -158,7 +157,6 @@ function App() {
       })
       .then((res) => {
         localStorage.setItem("jwt", res.token);
-        setIsLoggedIn(true);
         setCurrentUser(res.data);
         closeActiveModal();
       })
@@ -172,7 +170,6 @@ function App() {
       .then((res) => {
         if (res.token) {
           localStorage.setItem("jwt", res.token);
-          setIsLoggedIn(true);
           setCurrentUser(res.data);
           closeActiveModal();
         }
@@ -223,7 +220,7 @@ function App() {
 
   return (
     <div className="page">
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={{ currentUser, handleLogout }}>
         <CurrentTemperatureUnitContext.Provider
           value={{ currentTemperatureUnit, handleToggleSwitchChange }}
         >
@@ -254,6 +251,7 @@ function App() {
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
                     handleAddClick={handleAddClick}
+                    handleEditProfileClick={handleEditProfileClick}
                   />
                 }
               />
@@ -297,6 +295,10 @@ function App() {
             isOpen={activeModal === "login"}
             onClose={closeActiveModal}
             onLogin={handleLogin}
+          />
+          <EditProfileModal
+            isOpen={activeModal === "edit-profile"}
+            onClose={closeActiveModal}
           />
         </CurrentTemperatureUnitContext.Provider>
       </CurrentUserContext.Provider>
