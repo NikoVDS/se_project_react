@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
-function EditProfileModal({ activeModal, closeActiveModal, onSubmit }) {
+function EditProfileModal({ isOpen, onClose, onSubmit }) {
   const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
 
@@ -18,8 +18,8 @@ function EditProfileModal({ activeModal, closeActiveModal, onSubmit }) {
     <ModalWithForm
       title="Edit profile"
       buttonText="Save changes"
-      activeModal={activeModal === "edit-profile"}
-      closeActiveModal={closeActiveModal}
+      isOpen={isOpen}
+      closeActiveModal={onClose}
       onSubmit={handleSubmit}
     >
       <label className="modal__label">

@@ -12,12 +12,15 @@ import CurrentUserContext from "../../contexts/CurrentUserContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import Profile from "../Profile/Profile";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
+import RegisterModal from "../RegisterModal/RegisterModal";
+import LoginModal from "../LoginModal/LoginModal";
 import {
   addItem,
   getItems,
   removeItem,
   likeItem,
   unlikeItem,
+  updateProfile,
 } from "../../utils/api";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import { register, authorize, checkToken } from "../../utils/auth";
@@ -56,19 +59,34 @@ function App() {
     setActiveModal("edit-profile");
   };
 
+  const handleUpdateProfile = ({ name, avatar }) => {
+    const token = localStorage.getItem("jwt");
+
+    updateProfile({ name, avatar, token })
+      .then((updatedUser) => {
+        setCurrentUser(updatedUser);
+        closeActiveModal();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("jwt");
     setCurrentUser(null);
   };
 
   const handleAddItem = (inputValues) => {
+    const token = localStorage.getItem("jwt");
+
     const newCardData = {
       name: inputValues.name,
       imageUrl: inputValues.link,
       weather: inputValues.weather,
     };
 
-    addItem(newCardData)
+    addItem({ ...newCardData, token })
       .then((data) => {
         setClothingItems([data, ...clothingItems]); // Here is where the back-end data base is returning the ID for each card by using the ID parameter rather than the newCardData.
         closeActiveModal();
@@ -106,10 +124,10 @@ function App() {
     setActiveModal("delete-garment");
   };
 
-  const deleteItemHandler = (cardID, token) => {
+  const deleteItemHandler = (cardID) => {
     const token = localStorage.getItem("jwt");
 
-    removeItem(cardID)
+    removeItem(cardID, token)
       .then((data) => {
         const filteredCards = clothingItems.filter((item) => {
           return item._id != cardID;
@@ -165,6 +183,10 @@ function App() {
       });
   }
 
+  const handleRegisterClick = () => {
+    setActiveModal("register");
+  };
+
   function handleLogin({ email, password }) {
     authorize({ email, password })
       .then((res) => {
@@ -178,6 +200,10 @@ function App() {
         console.error(err);
       });
   }
+
+  const handleLoginClick = () => {
+    setActiveModal("login");
+  };
 
   // Request user's geolocation
   useEffect(() => {
@@ -220,7 +246,14 @@ function App() {
 
   return (
     <div className="page">
-      <CurrentUserContext.Provider value={{ currentUser, handleLogout }}>
+      <CurrentUserContext.Provider
+        value={{
+          currentUser,
+          handleLogout,
+          handleLoginClick,
+          handleRegisterClick,
+        }}
+      >
         <CurrentTemperatureUnitContext.Provider
           value={{ currentTemperatureUnit, handleToggleSwitchChange }}
         >
@@ -265,9 +298,8 @@ function App() {
           closeActiveModal={closeActiveModal}
         ></ModalWithForm> */}
           <AddItemModal
-            activeModal={activeModal}
             isOpen={activeModal === "add-garment"}
-            closeActiveModal={closeActiveModal}
+            onClose={closeActiveModal}
             onAddItem={handleAddItem}
           />
           <ItemModal
@@ -299,6 +331,7 @@ function App() {
           <EditProfileModal
             isOpen={activeModal === "edit-profile"}
             onClose={closeActiveModal}
+            onSubmit={handleUpdateProfile}
           />
         </CurrentTemperatureUnitContext.Provider>
       </CurrentUserContext.Provider>

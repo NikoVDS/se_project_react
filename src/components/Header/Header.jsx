@@ -4,9 +4,8 @@ import avatar from "../../assets/avatar.png";
 import mobileMenu from "../../assets/mobile-menu.png";
 import close from "../../assets/close.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function Header({
@@ -15,14 +14,16 @@ function Header({
   handleMobileMenuClick,
   isMobileMenuOpened,
 }) {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser, handleLogout, handleLoginClick, handleRegisterClick } =
+    useContext(CurrentUserContext);
 
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
     day: "numeric",
   });
 
-  const [checked, setChecked] = useState();
+  const [checked, setChecked] = useState(false);
+
   const handleChange = () => {
     setChecked(!checked);
   };
@@ -31,34 +32,69 @@ function Header({
     <header className="header">
       <NavLink to="/">
         <img
-          className={`header__logo ${isMobileMenuOpened ? "header__logo_hidden" : ""}`}
+          className={`header__logo ${
+            isMobileMenuOpened ? "header__logo_hidden" : ""
+          }`}
           src={logo}
           alt="header logo"
         />
       </NavLink>
+
       <p
-        className={`header__date-and-location ${isMobileMenuOpened ? "header__date-and-location_hidden" : ""}`}
+        className={`header__date-and-location ${
+          isMobileMenuOpened ? "header__date-and-location_hidden" : ""
+        }`}
       >
-        {currentDate}, {weatherData.city}{" "}
-        {/* This line of code is actually working, I have found out that depending on the city the API won't return the city name appropriately
-        and instead it will be just an empty string. Here is a screen shot of it working accordingly: https://prnt.sc/LjtXNyBHVegM. You just have to go into constants.js and change
-        the values for the coordinates variable and the city name will display properly. */}
+        {currentDate}, {weatherData.city}
       </p>
+
       <div className="header__user-container">
         <ToggleSwitch checked={checked} onChange={handleChange} />
+
+        {currentUser ? (
+          <>
+            <button
+              onClick={handleAddClick}
+              type="button"
+              className="header__add-clothes-btn"
+            >
+              + Add Clothes
+            </button>
+
+            <NavLink className="header__nav-link" to="/profile">
+              <p className="header__username">{currentUser.name}</p>
+
+              <img
+                src={currentUser.avatar || avatar}
+                alt="Profile Picture"
+                className="header__avatar"
+              />
+            </NavLink>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              className="header__auth-btn"
+              onClick={handleLoginClick}
+            >
+              Log in
+            </button>
+
+            <button
+              type="button"
+              className="header__auth-btn"
+              onClick={handleRegisterClick}
+            >
+              Sign up
+            </button>
+          </>
+        )}
+
         <button
-          onClick={handleAddClick}
-          type="button"
-          className="header__add-clothes-btn"
-        >
-          + Add Clothes
-        </button>
-        <NavLink className="header__nav-link" to="/profile">
-          <p className="header__username">Terrence Tegegne</p>
-          <img src={avatar} alt="Profile Picture" className="header__avatar" />
-        </NavLink>
-        <button
-          className={`header__mobile-menu ${isMobileMenuOpened ? "header__mobile-menu_hidden" : ""}`}
+          className={`header__mobile-menu ${
+            isMobileMenuOpened ? "header__mobile-menu_hidden" : ""
+          }`}
           type="button"
           onClick={handleMobileMenuClick}
         >
@@ -69,51 +105,60 @@ function Header({
           />
         </button>
       </div>
+
       <div
-        className={`header__nav-menu ${isMobileMenuOpened ? "header__nav-menu_active" : ""}`}
+        className={`header__nav-menu ${
+          isMobileMenuOpened ? "header__nav-menu_active" : ""
+        }`}
       >
-        <NavLink className="header__nav-link" to="/profile">
+        {currentUser ? (
           <div className="header__user-container">
-            <p className="header__username">
-              {isLoggedIn && (
-                <>
-                  <button
-                    onClick={handleAddClick}
-                    type="button"
-                    className="header__add-clothes-btn"
-                  >
-                    + Add Clothes
-                  </button>
+            <NavLink className="header__nav-link" to="/profile">
+              <p className="header__username">{currentUser.name}</p>
 
-                  <NavLink className="header__nav-link" to="/profile">
-                    <p className="header__username">{currentUser.name}</p>
-                    <img
-                      src={currentUser.avatar}
-                      alt="Profile Picture"
-                      className="header__avatar"
-                    />
-                  </NavLink>
+              <img
+                src={currentUser.avatar || avatar}
+                alt="Profile Picture"
+                className="header__avatar"
+              />
+            </NavLink>
 
-                  <button type="button" onClick={handleSignOut}>
-                    Sign Out
-                  </button>
-                </>
-              )}
-            </p>
-            <img
-              src={avatar}
-              alt="Profile Picture"
-              className="header__avatar"
-            />
+            <button
+              onClick={handleAddClick}
+              type="button"
+              className="header__add-clothes-btn"
+            >
+              + Add Clothes
+            </button>
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="header__logout-btn"
+            >
+              Sign Out
+            </button>
           </div>
-        </NavLink>
-        <button
-          onClick={handleAddClick}
-          type="button"
-          className="header__add-clothes-btn"
-        >
-          + Add Clothes
-        </button>
+        ) : (
+          <div className="header__user-container">
+            <button
+              type="button"
+              className="header__auth-btn"
+              onClick={handleLoginClick}
+            >
+              Log in
+            </button>
+
+            <button
+              type="button"
+              className="header__auth-btn"
+              onClick={handleRegisterClick}
+            >
+              Sign up
+            </button>
+          </div>
+        )}
+
         <button
           className="header__close"
           type="button"

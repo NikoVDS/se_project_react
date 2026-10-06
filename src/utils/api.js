@@ -60,6 +60,8 @@ export const unlikeItem = (itemID, token) => {
 };
 
 export const updateProfile = ({ name, avatar, token }) => {
+  console.log("TOKEN:", token);
+
   return fetch(`${baseUrl}/users/me`, {
     method: "PATCH",
     headers: {

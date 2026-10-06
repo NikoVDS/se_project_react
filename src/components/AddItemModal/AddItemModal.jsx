@@ -5,7 +5,7 @@ import ModalWithForm from "../ModalWithForm/ModalWithForm";
 const defaultValues = { name: "", link: "", weather: "" };
 
 // onAddItem refers to the submit handler declared in App.jsx
-const AddItemModal = ({ isOpen, onAddItem, closeActiveModal, activeModal }) => {
+const AddItemModal = ({ isOpen, onAddItem, onClose }) => {
   const { values, handleChange, resetForm, validateForm, errors } =
     useFormWithValidation(defaultValues);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -63,10 +63,9 @@ const AddItemModal = ({ isOpen, onAddItem, closeActiveModal, activeModal }) => {
     <ModalWithForm
       title="New garment"
       buttonText="Add garment"
-      closeActiveModal={closeActiveModal}
+      onClose={onClose}
       onSubmit={handleSubmit}
       isOpen={isOpen}
-      activeModal={activeModal}
     >
       <label className="modal__label">
         Name{" "}

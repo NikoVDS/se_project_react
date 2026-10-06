@@ -17,3 +17,27 @@
   width: 56px;
   height: 56px;
 }
+
+.sidebar__buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sidebar__edit-profile {
+  border: none;
+  padding: 16px 8px 0 0;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  cursor: pointer;
+}
+
+.sidebar__logout {
+  border: none;
+  padding: 16px 8px 0 0;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  cursor: pointer;
+}
