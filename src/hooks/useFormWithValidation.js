@@ -5,7 +5,6 @@ export function useFormWithValidation(defaultValues) {
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
 
-  // Validation rules
   const validateField = useCallback((name, value) => {
     switch (name) {
       case "name":
@@ -28,6 +27,17 @@ export function useFormWithValidation(defaultValues) {
           return "Please enter a valid URL";
         }
 
+      case "avatar":
+        if (!value.trim()) {
+          return "Avatar URL is required";
+        }
+        try {
+          new URL(value);
+          return "";
+        } catch {
+          return "Please enter a valid URL";
+        }
+
       case "weather":
         if (!value) {
           return "Weather type is required";
@@ -41,12 +51,19 @@ export function useFormWithValidation(defaultValues) {
 
   const handleChange = (evt) => {
     const { name, value } = evt.target;
-    const newValues = { ...values, [name]: value };
+
+    const newValues = {
+      ...values,
+      [name]: value,
+    };
+
     setValues(newValues);
 
-    // Validate and update errors for the changed field
-    const newErrors = { ...errors };
     const error = validateField(name, value);
+
+    const newErrors = {
+      ...errors,
+    };
 
     if (error) {
       newErrors[name] = error;
@@ -56,21 +73,19 @@ export function useFormWithValidation(defaultValues) {
 
     setErrors(newErrors);
 
-    // Check if form is valid (no errors and all required fields filled)
     const formIsValid =
       Object.keys(newErrors).length === 0 &&
-      newValues.name &&
-      newValues.link &&
-      newValues.weather;
+      Object.values(newValues).every((fieldValue) => fieldValue.trim() !== "");
+
     setIsValid(formIsValid);
   };
 
   const validateForm = useCallback(() => {
-    let newErrors = {};
+    const newErrors = {};
 
-    // Validate all fields
-    Object.keys(defaultValues).forEach((key) => {
-      const error = validateField(key, values[key]);
+    Object.entries(values).forEach(([key, value]) => {
+      const error = validateField(key, value);
+
       if (error) {
         newErrors[key] = error;
       }
@@ -78,11 +93,14 @@ export function useFormWithValidation(defaultValues) {
 
     setErrors(newErrors);
 
-    const formIsValid = Object.keys(newErrors).length === 0;
+    const formIsValid =
+      Object.keys(newErrors).length === 0 &&
+      Object.values(values).every((fieldValue) => fieldValue.trim() !== "");
+
     setIsValid(formIsValid);
 
     return formIsValid;
-  }, [values, defaultValues, validateField]);
+  }, [values, validateField]);
 
   const resetForm = useCallback(() => {
     setValues(defaultValues);

@@ -332,6 +332,7 @@ function App() {
             isOpen={activeModal === "edit-profile"}
             onClose={closeActiveModal}
             onSubmit={handleUpdateProfile}
+            currentUser={currentUser}
           />
         </CurrentTemperatureUnitContext.Provider>
       </CurrentUserContext.Provider>

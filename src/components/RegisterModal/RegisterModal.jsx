@@ -1,21 +1,25 @@
-import { useState } from "react";
+import { useFormWithValidation } from "../../hooks/useFormWithValidation";
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
 
+const defaultValues = {
+  name: "",
+  avatar: "",
+  email: "",
+  password: "",
+};
+
 function RegisterModal({ isOpen, onClose, onRegister }) {
-  const [name, setName] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { values, handleChange, errors, validateForm } =
+    useFormWithValidation(defaultValues);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    onRegister({
-      name,
-      avatar,
-      email,
-      password,
-    });
+    if (!validateForm()) {
+      return;
+    }
+
+    onRegister(values);
   };
 
   return (
@@ -29,49 +33,55 @@ function RegisterModal({ isOpen, onClose, onRegister }) {
       <label className="modal__label">
         Email
         <input
+          name="email"
           className="modal__input"
           type="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          value={values.email}
+          onChange={handleChange}
         />
+        {errors.email && <span className="modal__error">{errors.email}</span>}
       </label>
 
       <label className="modal__label">
         Password
         <input
+          name="password"
           className="modal__input"
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+          value={values.password}
+          onChange={handleChange}
         />
+        {errors.password && (
+          <span className="modal__error">{errors.password}</span>
+        )}
       </label>
 
       <label className="modal__label">
         Name
         <input
+          name="name"
           className="modal__input"
           type="text"
           placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+          value={values.name}
+          onChange={handleChange}
         />
+        {errors.name && <span className="modal__error">{errors.name}</span>}
       </label>
 
       <label className="modal__label">
         Avatar
         <input
+          name="avatar"
           className="modal__input"
           type="url"
           placeholder="Avatar URL"
-          value={avatar}
-          onChange={(e) => setAvatar(e.target.value)}
-          required
+          value={values.avatar}
+          onChange={handleChange}
         />
+        {errors.avatar && <span className="modal__error">{errors.avatar}</span>}
       </label>
     </ModalWithForm>
   );
