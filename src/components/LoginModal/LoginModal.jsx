@@ -6,7 +6,7 @@ const defaultValues = {
   password: "",
 };
 
-function LoginModal({ isOpen, onClose, onLogin }) {
+function LoginModal({ isOpen, onClose, onLogin, onRegisterClick }) {
   const { values, handleChange, errors, validateForm } =
     useFormWithValidation(defaultValues);
 
@@ -27,6 +27,8 @@ function LoginModal({ isOpen, onClose, onLogin }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      secondaryButtonText="or Sign Up"
+      onSecondaryButtonClick={onRegisterClick}
     >
       <label className="modal__label">
         Email

@@ -174,8 +174,16 @@ function App() {
         });
       })
       .then((res) => {
+        if (!res.token) {
+          throw new Error("No authentication token received");
+        }
+
         localStorage.setItem("jwt", res.token);
-        setCurrentUser(res.data);
+
+        return checkToken(res.token);
+      })
+      .then((user) => {
+        setCurrentUser(user);
         closeActiveModal();
       })
       .catch((err) => {
@@ -188,13 +196,19 @@ function App() {
   };
 
   function handleLogin({ email, password }) {
-    authorize({ email, password })
+    return authorize({ email, password })
       .then((res) => {
-        if (res.token) {
-          localStorage.setItem("jwt", res.token);
-          setCurrentUser(res.data);
-          closeActiveModal();
+        if (!res.token) {
+          throw new Error("No authentication token received");
         }
+
+        localStorage.setItem("jwt", res.token);
+
+        return checkToken(res.token);
+      })
+      .then((user) => {
+        setCurrentUser(user);
+        closeActiveModal();
       })
       .catch((err) => {
         console.error(err);
@@ -321,12 +335,14 @@ function App() {
             isOpen={activeModal === "register"}
             onClose={closeActiveModal}
             onRegister={handleRegister}
+            onLoginClick={handleLoginClick}
           />
 
           <LoginModal
             isOpen={activeModal === "login"}
             onClose={closeActiveModal}
             onLogin={handleLogin}
+            onRegisterClick={handleRegisterClick}
           />
           <EditProfileModal
             isOpen={activeModal === "edit-profile"}
