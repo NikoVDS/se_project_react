@@ -11,6 +11,7 @@ import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnit
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import AddItemModal from "../AddItemModal/AddItemModal";
 import Profile from "../Profile/Profile";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import EditProfileModal from "../EditProfileModal/EditProfileModal";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import LoginModal from "../LoginModal/LoginModal";
@@ -294,12 +295,14 @@ function App() {
               <Route
                 path="/profile"
                 element={
-                  <Profile
-                    handleCardClick={handleCardClick}
-                    clothingItems={clothingItems}
-                    handleAddClick={handleAddClick}
-                    handleEditProfileClick={handleEditProfileClick}
-                  />
+                  <ProtectedRoute>
+                    <Profile
+                      handleCardClick={handleCardClick}
+                      clothingItems={clothingItems}
+                      handleAddClick={handleAddClick}
+                      handleEditProfileClick={handleEditProfileClick}
+                    />
+                  </ProtectedRoute>
                 }
               />
             </Routes>
@@ -348,7 +351,6 @@ function App() {
             isOpen={activeModal === "edit-profile"}
             onClose={closeActiveModal}
             onSubmit={handleUpdateProfile}
-            currentUser={currentUser}
           />
         </CurrentTemperatureUnitContext.Provider>
       </CurrentUserContext.Provider>

@@ -14,7 +14,9 @@ function ItemCard({ item, onCardClick, onCardLike }) {
     onCardClick(item);
   };
 
-  const handleLikeClick = () => {
+  const handleLikeClick = (event) => {
+    event.stopPropagation();
+
     if (!currentUser || !onCardLike) return;
 
     onCardLike({
@@ -43,12 +45,9 @@ function ItemCard({ item, onCardClick, onCardLike }) {
         )}
       </div>
 
-      <img
-        onClick={handleCardClick}
-        className="card__image"
-        src={item.imageUrl}
-        alt={item.name}
-      />
+      <div className="card__image-container" onClick={handleCardClick}>
+        <img className="card__image" src={item.imageUrl} alt={item.name} />
+      </div>
     </li>
   );
 }

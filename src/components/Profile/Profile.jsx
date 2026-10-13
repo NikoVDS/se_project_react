@@ -8,14 +8,17 @@ export default function Profile({
   handleCardClick,
   handleAddClick,
   handleEditProfileClick,
+  onCardLike,
 }) {
   return (
     <section className="profile">
       <SideBar handleEditProfileClick={handleEditProfileClick} />
+
       <ClothesSection
         handleCardClick={handleCardClick}
         clothingItems={clothingItems}
         handleAddClick={handleAddClick}
+        onCardLike={onCardLike}
       />
     </section>
   );

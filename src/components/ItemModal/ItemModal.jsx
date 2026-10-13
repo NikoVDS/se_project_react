@@ -4,19 +4,22 @@ import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
 function ItemModal({ activeModal, closeActiveModal, card, handleDeleteModal }) {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   const isOwner = currentUser && card.owner === currentUser._id;
 
   return (
-    <div className={`modal ${activeModal === "preview" && "modal__is-opened"}`}>
+    <div
+      className={`modal ${activeModal === "preview" ? "modal__is-opened" : ""}`}
+    >
       <div className="modal__content modal__content_type_image">
         <button
           onClick={closeActiveModal}
           type="button"
           className="modal__close"
+          aria-label="Close preview"
         >
-          <img className="modal__close-image" src={close} alt="close" />
+          <img className="modal__close-image" src={close} alt="" />
         </button>
 
         <img src={card.imageUrl} alt={card.name} className="modal__image" />

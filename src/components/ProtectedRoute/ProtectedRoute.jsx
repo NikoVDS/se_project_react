@@ -9,12 +9,3 @@ function ProtectedRoute({ children, isLoggedIn }) {
 }
 
 export default ProtectedRoute;
-
-<Route
-  path="/profile"
-  element={
-    <ProtectedRoute isLoggedIn={isLoggedIn}>
-      <Profile />
-    </ProtectedRoute>
-  }
-/>;
