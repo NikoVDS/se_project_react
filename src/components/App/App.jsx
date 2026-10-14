@@ -295,7 +295,7 @@ function App() {
               <Route
                 path="/profile"
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute isLoggedIn={!!currentUser}>
                     <Profile
                       handleCardClick={handleCardClick}
                       clothingItems={clothingItems}
