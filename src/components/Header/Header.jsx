@@ -1,6 +1,5 @@
 import "./Header.css";
 import logo from "../../assets/logo.svg";
-import avatar from "../../assets/avatar.png";
 import mobileMenu from "../../assets/mobile-menu.png";
 import close from "../../assets/close.svg";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
@@ -64,11 +63,17 @@ function Header({
             <NavLink className="header__nav-link" to="/profile">
               <p className="header__username">{currentUser.name}</p>
 
-              <img
-                src={currentUser.avatar || avatar}
-                alt="Profile Picture"
-                className="header__avatar"
-              />
+              {currentUser.avatar ? (
+                <img
+                  src={currentUser.avatar}
+                  alt="Profile Picture"
+                  className="header__avatar"
+                />
+              ) : (
+                <div className="header__avatar-placeholder">
+                  {currentUser.name?.charAt(0).toUpperCase() || "?"}
+                </div>
+              )}
             </NavLink>
           </>
         ) : (
@@ -116,11 +121,17 @@ function Header({
             <NavLink className="header__nav-link" to="/profile">
               <p className="header__username">{currentUser.name}</p>
 
-              <img
-                src={currentUser.avatar || avatar}
-                alt="Profile Picture"
-                className="header__avatar"
-              />
+              {currentUser.avatar ? (
+                <img
+                  src={currentUser.avatar}
+                  alt="Profile Picture"
+                  className="header__avatar"
+                />
+              ) : (
+                <div className="header__avatar-placeholder">
+                  {currentUser.name?.charAt(0).toUpperCase() || "?"}
+                </div>
+              )}
             </NavLink>
 
             <button
